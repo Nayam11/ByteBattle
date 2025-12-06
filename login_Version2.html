@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | GEAR HUB (HTML)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root { --bg: #0F172A; --panel: rgba(30,41,59,0.7); --text: #F8FAFC; }
+    body { margin:0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    .center { min-height: 100vh; display: grid; place-items: center; }
+    .card { background: var(--panel); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.08); padding: 24px; border-radius: 24px; width: 420px; box-shadow: 0 10px 40px -10px rgba(6,182,212,0.25); }
+    .title { text-align:center; }
+    .input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(2,6,23,0.6); color: #fff; }
+    .row { display:flex; gap:10px; }
+    .mt { margin-top: 12px; }
+    .btn { padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(6,182,212,0.2); color: #fff; cursor: pointer; width: 100%; }
+    .btn-primary { background: linear-gradient(90deg,#06b6d4,#3b82f6); border: none; }
+    .tabs { display:flex; gap:8px; margin-bottom: 12px; }
+    .tab { flex:1; padding:10px; border-radius:12px; text-align:center; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); cursor:pointer; }
+    .active { background: rgba(255,255,255,0.12); }
+    .note { font-size:12px; color:#93c5fd; }
+    .error { color:#fca5a5; font-size:12px; }
+    .success { color:#86efac; font-size:12px; }
+  </style>
+</head>
+<body>
+  <div class="center">
+    <div class="card">
+      <h2 class="title">GEAR HUB</h2>
+      <div class="tabs">
+        <div id="tabSignIn" class="tab active" onclick="setMode('signin')">Sign In</div>
+        <div id="tabSignUp" class="tab" onclick="setMode('signup')">Sign Up</div>
+      </div>
+
+      <div class="mt">
+        <label>Full Name</label>
+        <input id="name" class="input" placeholder="John Doe">
+      </div>
+      <div class="mt">
+        <label>Email</label>
+        <input id="email" class="input" placeholder="name.12345@gear.ac.in">
+      </div>
+      <div class="mt">
+        <label>Password</label>
+        <input id="password" class="input" type="password" placeholder="••••••••">
+      </div>
+
+      <div id="roleNote" class="note mt">Use your institutional email.</div>
+      <div id="msg" class="mt"></div>
+
+      <div class="row mt">
+        <button class="btn btn-primary" onclick="submitForm()">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const USER_REGISTRY_KEY = 'gearhub_users_registry';
+    const ACTIVE_SESSION_KEY = 'gearhub_active_session';
+    let mode = 'signin';
+
+    function setMode(m) {
+      mode = m;
+      document.getElementById('tabSignIn').classList.toggle('active', m==='signin');
+      document.getElementById('tabSignUp').classList.toggle('active', m==='signup');
+      document.getElementById('name').parentElement.style.display = m==='signup' ? 'block' : 'none';
+    }
+    setMode('signin');
+
+    function validateEmail(email) {
+      const e = email.toLowerCase().trim();
+      if (!e.endsWith('@gear.ac.in')) return 'Access restricted. Use @gear.ac.in email.';
+      const parts = e.split('@')[0].split('.');
+      if (parts.length < 2) return 'Invalid format. Use name.code@gear.ac.in';
+      return null;
+    }
+
+    function submitForm() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const password = document.getElementById('password').value;
+      const msg = document.getElementById('msg');
+      msg.className = '';
+      msg.textContent = '';
+
+      const err = validateEmail(email);
+      if (err) { msg.className='error'; msg.textContent=err; return; }
+
+      const registry = JSON.parse(localStorage.getItem(USER_REGISTRY_KEY) || '{}');
+      const existing = registry[email];
+
+      if (mode === 'signup') {
+        if (existing) { msg.className='error'; msg.textContent='Account exists. Please sign in.'; return; }
+        if (!name) { msg.className='error'; msg.textContent='Full Name required.'; return; }
+
+        // Role detection (simple): ends with 2 letters -> staff
+        const localPart = email.split('@')[0];
+        const lastPart = localPart.split('.').pop();
+        const isStaff = /^[a-z]{2}$/.test(lastPart);
+        const role = isStaff ? 'TEACHER' : 'STUDENT';
+
+        const newUser = { id: email.replace(/[^a-zA-Z0-9]/g,'_'), name, email, password, role, avatar:'', xp:0, level:1, streak:1, badges:[] };
+        registry[email] = newUser;
+        localStorage.setItem(USER_REGISTRY_KEY, JSON.stringify(registry));
+        localStorage.setItem(ACTIVE_SESSION_KEY, JSON.stringify(newUser));
+        msg.className='success'; msg.textContent=`Account created as ${role}. Redirecting...`;
+        setTimeout(()=>location.href='dashboard.html',800);
+      } else {
+        if (!existing) { msg.className='error'; msg.textContent='Account not found. Sign up first.'; return; }
+        if (existing.password && existing.password !== password) { msg.className='error'; msg.textContent='Incorrect password.'; return; }
+        localStorage.setItem(ACTIVE_SESSION_KEY, JSON.stringify(existing));
+        location.href='dashboard.html';
+      }
+    }
+  </script>
+</body>
+</html>

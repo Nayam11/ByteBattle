@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat | GEAR HUB (HTML)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root { --bg:#313338; --panel:#2B2D31; --text:#DBDEE1; }
+    body { margin:0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    .app { display:flex; height:100vh; }
+    .sidebar { width:260px; background: var(--panel); display:flex; flex-direction:column; }
+    .header { height:48px; display:flex; align-items:center; padding:8px; border-bottom:1px solid #1F2023; }
+    .button { width:100%; background:#1E1F22; color:#949BA4; padding:8px; border-radius:8px; border:none; cursor:pointer; }
+    .channel { display:flex; gap:8px; align-items:center; padding:8px; border-radius:8px; cursor:pointer; color:#949BA4; }
+    .channel.active { background:#404249; color:#fff; }
+    .main { flex:1; display:flex; flex-direction:column; }
+    .topbar { height:48px; border-bottom:1px solid #26272D; display:flex; align-items:center; padding:0 12px; justify-content:space-between; }
+    .msgs { flex:1; overflow:auto; padding:12px; }
+    .msg { display:flex; gap:8px; padding:6px 12px; border-radius:8px; }
+    .msg:hover { background:#2e3035; }
+    .avatar { width:32px; height:32px; background:#5865F2; color:#fff; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; }
+    .inputbar { padding:12px; }
+    .input { width:100%; padding:12px; border-radius:8px; border:none; background:#383A40; color:#DBDEE1; }
+    .btn { padding:8px 12px; background:#5865F2; color:#fff; border:none; border-radius:8px; cursor:pointer; }
+    .row { display:flex; gap:8px; align-items:center; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="sidebar">
+      <div class="header"><button class="button">Find or start a conversation</button></div>
+      <div style="padding:8px">
+        <div class="row" style="justify-content:space-between;padding:8px;color:#949BA4;font-size:12px;font-weight:700">
+          <span>Channels</span><button onclick="showCreate=true;openCreate()" style="background:none;border:none;color:#949BA4;cursor:pointer">+</button>
+        </div>
+        <div id="channels"></div>
+      </div>
+      <div style="margin-top:auto;padding:8px;background:#232428" class="row">
+        <div class="avatar" id="userAv">U</div>
+        <div style="flex:1">
+          <div id="userName" style="color:#fff;font-weight:700">User</div>
+          <div id="userId" style="font-size:12px;color:#949BA4">#0000</div>
+        </div>
+        <button onclick="logout()" class="button" style="width:auto">Logout</button>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="topbar">
+        <div class="row"><span>#</span><strong id="activeName">general</strong></div>
+        <div class="row">
+          <button class="button" style="width:auto" onclick="openInvite()">Invite</button>
+        </div>
+      </div>
+      <div id="msgs" class="msgs"></div>
+      <div class="inputbar row">
+        <input id="input" class="input" placeholder="Message #general" onkeydown="if(event.key==='Enter') send()">
+        <button class="btn" onclick="send()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create channel modal -->
+  <div id="createModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
+    <div style="background:#313338;padding:16px;border-radius:12px;width:360px">
+      <h3>Create Channel</h3>
+      <input id="newChannelName" class="input" placeholder="new-channel-name" style="margin:8px 0">
+      <div class="row" style="justify-content:flex-end">
+        <button class="button" onclick="closeCreate()">Cancel</button>
+        <button class="btn" onclick="createChannel()">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invite modal -->
+  <div id="inviteModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
+    <div style="background:#313338;padding:16px;border-radius:12px;width:360px">
+      <h3>Invite to #<span id="inviteChannelName">general</span></h3>
+      <input id="inviteEmail" class="input" placeholder="friend@gear.ac.in" style="margin:8px 0">
+      <div class="row" style="justify-content:flex-end">
+        <button class="button" onclick="closeInvite()">Cancel</button>
+        <button class="btn" onclick="sendInvite()">Send Invite</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ACTIVE_SESSION_KEY = 'gearhub_active_session';
+    const user = JSON.parse(localStorage.getItem(ACTIVE_SESSION_KEY) || 'null');
+    if(!user) location.href='login.html';
+    function logout(){ localStorage.removeItem(ACTIVE_SESSION_KEY); location.href='login.html'; }
+
+    const STORAGE_KEY = 'gearhub_chat_history';
+    const CHANNELS_KEY = 'gearhub_channels_registry';
+    const DEFAULT_CHANNELS = [
+      { id:'general', name:'general', ownerId:'system', members:[], type:'public' },
+      { id:'homework-help', name:'homework-help', ownerId:'system', members:[], type:'public' },
+      { id:'announcements', name:'announcements', ownerId:'system', members:[], type:'public' }
+    ];
+
+    // User display
+    document.getElementById('userName').textContent = user.name;
+    document.getElementById('userId').textContent = '#'+user.id.substring(0,4);
+    document.getElementById('userAv').textContent = (user.name[0] || 'U').toUpperCase();
+
+    // Channels
+    let allChannels = JSON.parse(localStorage.getItem(CHANNELS_KEY) || '[]');
+    if(allChannels.length===0){ allChannels=DEFAULT_CHANNELS; localStorage.setItem(CHANNELS_KEY, JSON.stringify(allChannels)); }
+    let channels = allChannels.filter(c=> c.type==='public' || c.ownerId===user.id || c.members.includes(user.id));
+    let activeChannel = channels[0] || DEFAULT_CHANNELS[0];
+    renderChannels();
+    loadMessages();
+
+    function renderChannels(){
+      const box = document.getElementById('channels'); box.innerHTML='';
+      channels.forEach(c=>{
+        const el = document.createElement('div'); el.className='channel'+(c.id===activeChannel.id?' active':'');
+        el.innerHTML = `<span>${c.type==='private'?'🔒':'#'}</span><span>${c.name}</span>`;
+        el.onclick = ()=>{ activeChannel=c; document.getElementById('activeName').textContent = c.name; document.getElementById('input').placeholder = 'Message #'+c.name; loadMessages(); };
+        box.appendChild(el);
+      });
+    }
+
+    function loadMessages(){
+      const store = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      const msgs = store[activeChannel.id] || [];
+      const list = document.getElementById('msgs'); list.innerHTML='';
+      if(msgs.length===0){
+        list.innerHTML = `<div style="margin-top:24px"><div class="avatar">#</div><h2>Welcome to #${activeChannel.name}!</h2><div>This is the start of #${activeChannel.name}</div></div>`;
+        return;
+      }
+      msgs.forEach(m=>{
+        const row = document.createElement('div'); row.className='msg';
+        row.innerHTML = `
+          <div class="avatar">${m.userId==='gear-bot'?'🤖':(m.userName.substring(0,2).toUpperCase())}</div>
+          <div>
+            <div><strong style="color:${m.userId==='gear-bot'?'#5865F2':'#fff'}">${m.userName}</strong> <span style="font-size:12px;color:#949BA4">${m.timestamp}</span></div>
+            <div>${m.text}</div>
+          </div>`;
+        list.appendChild(row);
+      });
+      list.scrollTop = list.scrollHeight;
+    }
+
+    function saveMessage(msg){
+      const store = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      if(!store[activeChannel.id]) store[activeChannel.id]=[];
+      store[activeChannel.id].push(msg);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+    }
+
+    function send(){
+      const val = document.getElementById('input').value.trim(); if(!val) return;
+      // Slash commands
+      if(val.startsWith('/')){
+        const [cmd, ...rest] = val.split(' ');
+        const args = rest.join(' ');
+        document.getElementById('input').value='';
+        if(cmd==='/clear'){ const store = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); store[activeChannel.id]=[]; localStorage.setItem(STORAGE_KEY, JSON.stringify(store)); loadMessages(); return; }
+        if(cmd==='/ai'){
+          const userMsg = { id:Date.now().toString(), userId:user.id, userName:user.name, role:user.role||'STUDENT', text:args||'Hi Gear Bot', timestamp:new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) };
+          saveMessage(userMsg);
+          const botMsg = { id:(Date.now()+1).toString(), userId:'gear-bot', userName:'Gear Bot', role:'ADMIN', text:`GEAR BOT: You said "${args||'Hi'}" (mock)`, timestamp:new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) };
+          saveMessage(botMsg); loadMessages(); return;
+        }
+        return;
+      }
+
+      const msg = { id:Date.now().toString(), userId:user.id, userName:user.name, role:user.role||'STUDENT', text:val, timestamp:new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) };
+      saveMessage(msg); document.getElementById('input').value=''; loadMessages();
+    }
+
+    // Modals
+    let showCreate=false, showInvite=false;
+    function openCreate(){ document.getElementById('createModal').style.display='flex'; }
+    function closeCreate(){ document.getElementById('createModal').style.display='none'; }
+    function createChannel(){
+      const name = document.getElementById('newChannelName').value.trim(); if(!name) return;
+      const channelId = name.toLowerCase().replace(/\s+/g,'-');
+      const newCh = { id:channelId, name, ownerId:user.id, members:[user.id], type:'private' };
+      const all = JSON.parse(localStorage.getItem(CHANNELS_KEY) || '[]'); all.push(newCh); localStorage.setItem(CHANNELS_KEY, JSON.stringify(all));
+      channels.push(newCh); renderChannels(); activeChannel=newCh; document.getElementById('activeName').textContent = newCh.name; closeCreate();
+    }
+
+    function openInvite(){ document.getElementById('inviteChannelName').textContent = activeChannel.name; document.getElementById('inviteModal').style.display='flex'; }
+    function closeInvite(){ document.getElementById('inviteModal').style.display='none'; }
+    function sendInvite(){
+      const email = document.getElementById('inviteEmail').value.trim(); if(!email) return;
+      const notification = { id:Date.now().toString(), title:'Channel Invitation', message:`${user.name} invited you to join #${activeChannel.name}`, type:'invite', timestamp:new Date().toISOString(), read:false, data:{ channelId:activeChannel.id, channelName:activeChannel.name, inviterName:user.name }};
+      const key = `gearhub_invites_${email}`;
+      const inv = JSON.parse(localStorage.getItem(key) || '[]'); inv.push(notification); localStorage.setItem(key, JSON.stringify(inv));
+      alert('Invitation sent!'); closeInvite();
+    }
+  </script>
+</body>
+</html>
