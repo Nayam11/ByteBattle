@@ -1,0 +1,172 @@
+/* Intentional "garage" look: bland, inconsistent, and clunky, without breaking functionality */
+
+/* Typography: system font, uneven sizes, harsh line-height */
+html, body {
+  font-family: system-ui, Arial, sans-serif;
+  color: #111;
+  background: #fff;
+  line-height: 1.1;
+}
+
+/* Randomly large default text for headings, no visual hierarchy */
+h1 { font-size: 28px; font-weight: 600; margin: 24px 0 6px; }
+h2 { font-size: 22px; font-weight: 600; margin: 20px 0 6px; }
+h3 { font-size: 18px; font-weight: 600; margin: 16px 0 4px; }
+
+/* Links: blue default, no hover niceties, harsh underline */
+a {
+  color: #0044cc;
+  text-decoration: underline;
+}
+a:hover, a:focus {
+  color: #002a7a;
+  text-decoration: underline;
+  outline: 2px solid #002a7a;
+}
+
+/* Buttons: boxy, hard borders, mismatched padding */
+button, .btn {
+  background: #e2e2e2;
+  color: #000;
+  border: 2px solid #888;
+  border-radius: 0;
+  padding: 6px 10px;
+  box-shadow: none;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+button:hover, .btn:hover {
+  background: #d6d6d6;
+}
+
+/* Inputs: no rounding, visible borders, cramped spacing */
+input, select, textarea {
+  border: 2px solid #999;
+  border-radius: 0;
+  padding: 6px;
+  background: #fff;
+  color: #111;
+  box-shadow: none;
+  outline-color: #999;
+}
+input:focus, select:focus, textarea:focus {
+  outline: 3px solid #666;
+}
+
+/* Containers and cards: remove modern aesthetics, add chunky borders */
+.card, .panel, .container, .box, .widget {
+  background: #fafafa;
+  border: 3px solid #bbb;
+  border-radius: 0;
+  padding: 12px;
+  margin: 16px 0;
+}
+
+/* Nav bars: blunt layout, uneven spacing, hard separators */
+nav, .navbar, .topbar {
+  background: #f0f0f0;
+  border-bottom: 3px solid #aaa;
+  padding: 8px 12px;
+}
+nav a, .navbar a, .topbar a {
+  margin-right: 14px;
+  padding: 6px 8px;
+  border-right: 2px solid #ccc;
+}
+nav a:last-child, .navbar a:last-child, .topbar a:last-child {
+  border-right: none;
+}
+
+/* Grid/list items: uneven gaps, awkward alignment */
+.grid, .row, .list, .items {
+  gap: 6px;
+}
+.grid > *, .row > *, .list > li, .items > * {
+  margin: 6px;
+}
+
+/* Tables: heavy borders, cramped cells */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 3px solid #999;
+}
+th, td {
+  border: 2px solid #bbb;
+  padding: 6px 8px;
+  text-align: left;
+  background: #fff;
+}
+
+/* Forms: stacked, cramped labels */
+label {
+  display: block;
+  margin: 4px 0 2px;
+  font-weight: 600;
+}
+
+/* Remove rounded corners and shadows globally */
+* {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+/* Spacing: inconsistent page padding for a rough feel */
+main, .content {
+  padding: 10px 12px;
+}
+
+/* Footer: chunky divider */
+footer {
+  border-top: 3px solid #aaa;
+  padding: 10px 12px;
+  background: #f5f5f5;
+}
+
+/* Badges/tags/chips: square and dull */
+.badge, .tag, .chip {
+  background: #e8e8e8;
+  border: 2px solid #999;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+/* Remove animations */
+[style*="animation"], [class*="animate"], [class*="transition"], .animated {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Images/icons: remove filters and rounding */
+img, .icon, svg {
+  filter: none !important;
+  border-radius: 0 !important;
+}
+
+/* Space-eating headers for a clunky feel */
+header {
+  padding: 16px 12px;
+  border-bottom: 3px solid #bbb;
+  background: #f4f4f4;
+}
+
+/* Lists: default bullets, uneven margins */
+ul, ol {
+  margin: 10px 18px;
+}
+
+/* Modals: plain boxes with hard borders */
+.modal, .dialog {
+  background: #fff;
+  border: 3px solid #999;
+  padding: 12px;
+}
+
+/* Hero sections: remove flair */
+.hero, .jumbotron {
+  background: #eee;
+  border: 3px solid #999;
+  padding: 16px;
+}
