@@ -23,6 +23,10 @@
   .btn { padding:8px 12px; border-radius:12px; border:0; background: linear-gradient(90deg,var(--primary),var(--sea-top)); color:#fff; cursor:pointer; }
   .btn-primary { background: linear-gradient(90deg,var(--primary),var(--sea-top)); border: none; }
     .pill { display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid var(--sep-weak); background: var(--glass-bg); color:var(--text); }
+  /* intra-card spacing: give direct children of .glass breathing room */
+  .glass > * + * { margin-top: 14px; }
+  /* titles inside cards */
+  .card-title { color: var(--text); font-weight:700; }
   </style>
 </head>
 <body>
@@ -88,19 +92,19 @@
 
         <div class="row mt">
           <div class="glass col">
-            <div>🕒 Study Hours</div>
+            <div class="card-title">🕒 Study Hours</div>
             <div id="studyHours" style="font-size:28px;font-weight:800">0h</div>
           </div>
           <div class="glass col">
-            <div>✅ Notes Completed</div>
+            <div class="card-title">✅ Notes Completed</div>
             <div id="completedTasks" style="font-size:28px;font-weight:800">0</div>
           </div>
           <div class="glass col">
-            <div>📚 Study Notes</div>
+            <div class="card-title">📚 Study Notes</div>
             <div id="notesCount" style="font-size:28px;font-weight:800">0</div>
           </div>
           <div class="glass col">
-            <div>🎯 Active Tasks</div>
+            <div class="card-title">🎯 Active Tasks</div>
             <div id="pendingTasks" style="font-size:28px;font-weight:800">0</div>
           </div>
         </div>
@@ -108,7 +112,7 @@
         <div class="row mt">
           <div class="glass" style="flex:2">
             <div class="row" style="justify-content:space-between">
-              <div class="row" style="align-items:center"><span>🧠</span><strong>Quick Scratchpad</strong></div>
+              <div class="row" style="align-items:center"><span>🧠</span><strong class="card-title">Quick Scratchpad</strong></div>
               <div class="row"><span id="saveStatus" class="small success-text" style="display:none;font-weight:700">Saved!</span><button class="btn" onclick="saveScratch()">Save Note</button></div>
             </div>
             <input id="scratchTitle" class="input mt" placeholder="Note Title...">
@@ -118,7 +122,7 @@
           </div>
 
           <div class="glass" style="flex:1">
-            <strong>Quick Actions</strong>
+            <strong class="card-title">Quick Actions</strong>
             <div class="mt"><button class="btn btn-primary" onclick="location.href='../sayaan/notes.html'">Create New Note (+20 XP)</button></div>
           </div>
         </div>
