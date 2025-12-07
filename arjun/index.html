@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../ugly.css">
+  <meta charset="UTF-8">
+  <title>GEAR HUB | HTML Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body{background:transparent;color:var(--text);margin:0}
+    .center{min-height:100vh;display:grid;place-items:center}
+    .card{max-width:480px;padding:28px}
+    .row{display:flex;gap:10px;align-items:center}
+    .mt{margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="center">
+    <div class="card">
+      <h1>GEAR HUB</h1>
+      <p>HTML only version. Redirecting...</p>
+      <div class="row mt">
+        <button class="btn" onclick="location.href='login.html'">Go to Login</button>
+  <button class="btn btn-primary" onclick="location.href='../nayam/dashboard.html'">Go to Dashboard</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const ACTIVE_SESSION_KEY = 'gearhub_active_session';
+    const session = localStorage.getItem(ACTIVE_SESSION_KEY);
+    if (session) {
+      location.href = '../nayam/dashboard.html';
+    } else {
+      location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>

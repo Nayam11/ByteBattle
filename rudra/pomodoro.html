@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <div class="backbar" style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-  <button class="back" onclick="history.back()" style="padding:8px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;cursor:pointer">← Back</button>
+  <button class="back" onclick="history.back()">← Back</button>
 </div>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="ugly.css">
+  <link rel="stylesheet" href="../ugly.css">
   <meta charset="UTF-8">
   <title>Pomodoro | GEAR HUB (HTML)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    :root { --bg:#020617; --panel:rgba(15,23,42,0.6); --text:#F8FAFC; }
+  /* page inherits global theme */
     body { margin:0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); }
     .center { min-height:100vh; display:grid; place-items:center; }
-    .glass { background: var(--panel); backdrop-filter: blur(24px); border:1px solid rgba(255,255,255,0.08); border-radius: 24px; box-shadow: 0 10px 40px -10px rgba(6,182,212,0.25); padding: 24px; }
-    .row { display:flex; gap:12px; align-items:center; justify-content:center; }
-    .btn { padding:12px; border-radius:999px; border:1px solid rgba(255,255,255,0.12); background: rgba(6,182,212,0.2); color:#fff; cursor:pointer; }
-    .input { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(2,6,23,0.6); color: #fff; }
+  .glass { background: var(--card-bg); backdrop-filter: blur(8px); border:1px solid var(--sep-weak); border-radius: 24px; box-shadow: 0 10px 40px -10px rgba(11,107,255,0.08); padding: 24px; }
+  .row { display:flex; gap:12px; align-items:center; justify-content:center; }
+  .btn { padding:12px; border-radius:999px; border:1px solid var(--sep-weak); background: linear-gradient(90deg,var(--primary),var(--sea-top)); color:#fff; cursor:pointer; }
+  .input { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid var(--sep-weak); background: var(--card-bg); color: var(--text); }
   </style>
 </head>
 <body>
@@ -44,7 +44,7 @@
 
   <script>
     const ACTIVE_SESSION_KEY='gearhub_active_session';
-    const user = JSON.parse(localStorage.getItem(ACTIVE_SESSION_KEY) || 'null'); if(!user) location.href='login.html';
+    const user = JSON.parse(localStorage.getItem(ACTIVE_SESSION_KEY) || 'null'); if(!user) location.href='../arjun/login.html';
     const STORAGE_KEY = `gearhub_pomodoro_settings_${user.id}`;
 
     const DEFAULT = { FOCUS:25, SHORT:5, LONG:15 };

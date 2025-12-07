@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<div class="backbar" style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+  <button class="back" onclick="history.back()">← Back</button>
+</div>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../ugly.css">
+  <meta charset="UTF-8">
+  <title>Admin | GEAR HUB (HTML)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin:0; font-family: Inter, system-ui, sans-serif; background:transparent; color:var(--text); }
+    .app { display:flex; height:100vh; }
+    .aside { width:280px; background:transparent; display:flex; flex-direction:column; }
+    .main { flex:1; display:flex; flex-direction:column; }
+    .header { height:80px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; border-bottom:1px solid var(--sep-weak); background:transparent; position:sticky; top:0; }
+    .content { flex:1; overflow:auto; padding:24px; }
+    .glass { background: var(--card-bg); border:1px solid var(--sep-weak); border-radius: 24px; padding: 24px; }
+  .input { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid var(--sep-weak); background: var(--card-bg); color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="aside">
+      <div style="padding:24px; display:flex; align-items:center; gap:12px;">
+        <div class="brand-mark">⬢</div>
+        <div><div style="font-weight:700">GEAR HUB</div></div>
+      </div>
+      <nav style="padding:12px; overflow:auto">
+        <button onclick="location.href='../nayam/dashboard.html'">🏠 Dashboard</button>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="header"><h2>Admin Console</h2></header>
+      <div class="content">
+        <div class="glass">
+          <div class="row" style="justify-content:space-between;align-items:center">
+            <strong>User Registry</strong>
+            <input id="search" class="input" placeholder="Search users...">
+          </div>
+          <div id="registry" class="muted" style="margin-top:12px"></div>
+        </div>
+        <div class="glass" style="margin-top:12px">
+          <strong>Platform Analytics</strong>
+          <div style="margin-top:8px;" class="muted">Daily Active Users: <span id="dau">0</span></div>
+          <div style="margin-top:8px;" class="muted">Storage Used: <span id="stor">45%</span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const ACTIVE_SESSION_KEY='gearhub_active_session', USER_REGISTRY_KEY='gearhub_users_registry';
+    const user=JSON.parse(localStorage.getItem(ACTIVE_SESSION_KEY)||'null'); if(!user) location.href='../arjun/login.html';
+  if(user.role!=='ADMIN'){ alert('Access denied'); location.href='../nayam/dashboard.html'; }
+    const registry=JSON.parse(localStorage.getItem(USER_REGISTRY_KEY)||'{}');
+    const users=Object.values(registry);
+    document.getElementById('dau').textContent = Math.min(users.length, users.length*2);
+    const regBox=document.getElementById('registry'); regBox.textContent = users.length? `${users.length} users loaded.` : 'No users.';
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<div class="backbar" style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+  <button class="back" onclick="history.back()">← Back</button>
+</div>
+<html lang="en" class="dark">
+<head>
+  <link rel="stylesheet" href="../ugly.css">
+  <meta charset="UTF-8">
+  <title>GEAR HUB — Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>body{background:transparent;color:var(--text);font-family:Inter,sans-serif}</style>
+</head>
+<body>
+  <div class="max-w-4xl mx-auto p-8 space-y-6">
+  <h2 class="text-2xl font-bold mb-6" style="color:var(--text)">Profile Settings</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <div class="rounded-[2rem] p-8 flex flex-col items-center text-center" style="background:var(--card-bg);border:1px solid var(--sep-weak)">
+        <div class="relative group">
+          <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white/10 shadow-2xl relative bg-slate-800 flex items-center justify-center">
+            <span class="text-white text-3xl">SN</span>
+          </div>
+        </div>
+  <h3 class="text-xl font-bold mt-4" style="color:var(--text)">Student Name</h3>
+  <span class="px-3 py-1 rounded-full text-sm font-medium mt-2" style="background:var(--glass-bg);color:var(--primary);border:1px solid var(--sep-weak);">STUDENT</span>
+  <p class="text-slate-400 text-sm mt-4" style="color:var(--muted)">Click the avatar to upload a custom profile picture.</p>
+      </div>
+  <div class="rounded-[2rem] p-8 space-y-6 md:col-span-2" style="background:var(--card-bg);border:1px solid var(--sep-weak)">
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold border-b" style="color:var(--text);border-bottom:1px solid var(--sep-weak);padding-bottom:8px">Personal Information</h3>
+          <div>
+            <label class="text-sm font-medium mb-1" style="color:var(--muted)">Full Name</label>
+            <input class="w-full rounded-lg p-3" style="background:var(--card-bg);border:1px solid var(--sep-weak);color:var(--text)" />
+          </div>
+          <div>
+            <label class="text-sm font-medium mb-1" style="color:var(--muted)">Email Address</label>
+            <div class="w-full rounded-lg p-3" style="background:var(--glass-bg);border:1px solid var(--sep-weak);color:var(--muted);display:flex;justify-content:space-between;align-items:center">student.12345@gear.ac.in <span style="color:var(--success)">✔</span></div>
+            <p class="text-xs" style="color:var(--muted);margin-top:6px">Email cannot be changed.</p>
+          </div>
+          <div>
+            <label class="text-sm font-medium mb-1" style="color:var(--muted)">Bio / Status</label>
+            <textarea class="w-full rounded-lg p-3" style="background:var(--card-bg);border:1px solid var(--sep-weak);color:var(--text);height:96px"></textarea>
+          </div>
+        </div>
+        <div class="flex justify-end pt-4" style="border-top:1px solid var(--sep-weak)">
+          <button class="px-6 py-2 rounded-lg font-medium" style="background:linear-gradient(90deg,var(--primary),var(--sea-top));color:#fff;border:0">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

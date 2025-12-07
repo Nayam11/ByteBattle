@@ -1,38 +1,35 @@
 <!DOCTYPE html>
-<div class="backbar" style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-  <button class="back" onclick="history.back()" style="padding:8px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;cursor:pointer">← Back</button>
-</div>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="ugly.css">
+  <link rel="stylesheet" href="../ugly.css">
   <meta charset="UTF-8">
   <title>Dashboard | GEAR HUB (HTML)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    :root { --bg:#020617; --panel:rgba(15,23,42,0.6); --text:#F8FAFC; }
-    body { margin:0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    /* use global theme variables; local rules only adjust layout */
+    body { margin:0; font-family: Inter, system-ui, sans-serif; background:transparent; color:var(--text); }
     .app { display:flex; height:100vh; }
-    .aside { width:280px; background: rgba(15,23,42,0.4); backdrop-filter: blur(24px); border-right:1px solid rgba(255,255,255,0.06); display:flex; flex-direction:column; }
+    .aside { width:280px; background:transparent; display:flex; flex-direction:column; border-right:1px solid var(--sep-weak); }
     .main { flex:1; display:flex; flex-direction:column; }
-    .header { height:80px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; border-bottom:1px solid rgba(255,255,255,0.08); background: rgba(2,6,23,0.6); backdrop-filter: blur(16px); position:sticky; top:0; }
+    .header { height:80px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; border-bottom:1px solid var(--sep-weak); background:transparent; position:sticky; top:0; }
     .content { flex:1; overflow:auto; padding:24px; }
-    .glass { background: var(--panel); backdrop-filter: blur(24px); border:1px solid rgba(255,255,255,0.08); border-radius: 24px; box-shadow: 0 10px 40px -10px rgba(6,182,212,0.25); padding: 24px; }
-    .nav-btn { width:100%; display:flex; gap:12px; align-items:center; padding:12px 16px; color:#cbd5e1; border-radius:16px; border:1px solid transparent; cursor:pointer; }
-    .nav-btn:hover { background: rgba(255,255,255,0.06); color:#e2e8f0; }
-    .badge { font-size:10px; text-transform:uppercase; color:#22d3ee; }
-    .row { display:flex; gap:16px; flex-wrap:wrap; }
+    .glass { background:var(--card-bg); border:1px solid var(--sep-weak); border-radius:24px; padding:24px }
+    .nav-btn { width:100%; display:flex; gap:12px; align-items:center; padding:12px 16px; color:var(--muted); border-radius:16px; border:1px solid transparent; cursor:pointer; }
+    .nav-btn:hover { background: var(--glass-bg); color:var(--text); }
+    .badge { font-size:10px; text-transform:uppercase; color:var(--primary); }
+  .row { display:flex; gap:24px; flex-wrap:wrap; }
     .col { flex:1; min-width:220px; }
-    .input { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(2,6,23,0.6); color: #fff; }
-    .btn { padding:8px 12px; border-radius:12px; border:1px solid rgba(255,255,255,0.12); background: rgba(6,182,212,0.2); color:#fff; cursor:pointer; }
-    .btn-primary { background: linear-gradient(90deg,#06b6d4,#3b82f6); border: none; }
-    .pill { display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,0.12); background: rgba(30,41,59,0.7); }
+  .input { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid var(--sep-weak); background: var(--card-bg); color: var(--text); }
+  .btn { padding:8px 12px; border-radius:12px; border:0; background: linear-gradient(90deg,var(--primary),var(--sea-top)); color:#fff; cursor:pointer; }
+  .btn-primary { background: linear-gradient(90deg,var(--primary),var(--sea-top)); border: none; }
+    .pill { display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid var(--sep-weak); background: var(--glass-bg); color:var(--text); }
   </style>
 </head>
 <body>
   <div class="app">
     <aside class="aside">
       <div style="padding:24px; display:flex; align-items:center; gap:12px;">
-        <div style="width:40px;height:40px;background:linear-gradient(135deg,#06b6d4,#3b82f6);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 20px -10px rgba(6,182,212,0.4)">⬢</div>
+        <div class="brand-mark">⬢</div>
         <div>
           <div style="font-weight:700">GEAR HUB</div>
           <div id="roleBadge" class="badge">Student Edition</div>
@@ -40,15 +37,13 @@
       </div>
       <nav style="padding:12px; overflow:auto">
         <button class="nav-btn" onclick="location.href='dashboard.html'">🏠 Dashboard</button>
-        <button class="nav-btn" onclick="location.href='notes.html'">📒 Study & Notes</button>
-        <button class="nav-btn" onclick="location.href='timetable.html'">📆 Timetable</button>
-        <button class="nav-btn" onclick="location.href='imeet.html'">🎥 iMeet Live</button>
-        <button class="nav-btn" onclick="location.href='pomodoro.html'">⏱️ Focus Timer</button>
-        <button class="nav-btn" onclick="location.href='games.html'">🎮 Arcade Zone</button>
+        <button class="nav-btn" onclick="location.href='../sayaan/notes.html'">📒 Study & Notes</button>
+        <button class="nav-btn" onclick="location.href='../sayaan/timetable.html'">📆 Timetable</button>
+        <button class="nav-btn" onclick="location.href='../rudra/pomodoro.html'">⏱️ Focus Timer</button>
         <button class="nav-btn" onclick="location.href='chat.html'">💬 Collaboration</button>
         <button class="nav-btn" onclick="location.href='grades.html'">📊 Performance</button>
         <button id="teacherNav" class="nav-btn" style="display:none" onclick="location.href='teacher-tools.html'">👩‍🏫 Teacher Tools</button>
-        <button id="adminNav" class="nav-btn" style="display:none" onclick="location.href='admin.html'">🛡️ Admin Console</button>
+        <button id="adminNav" class="nav-btn" style="display:none" onclick="location.href='../rudra/admin.html'">🛡️ Admin Console</button>
       </nav>
       <div style="margin-top:auto;padding:16px">
         <button class="btn" onclick="logout()">Sign Out</button>
@@ -69,19 +64,19 @@
         <div class="row" style="align-items:flex-end">
           <div style="flex:1">
             <h2 id="greeting" style="font-size:36px; margin:0 0 6px 0;">Good Day, User</h2>
-            <div style="color:#94a3b8">Ready to achieve your goals today?</div>
+            <div class="muted">Ready to achieve your goals today?</div>
           </div>
           <div class="pill" style="display:flex;align-items:center;gap:16px;padding:12px 20px;">
-            <div id="levelBadge" style="width:60px;height:60px;border-radius:999px;background:linear-gradient(135deg,#facc15,#f97316);display:flex;align-items:center;justify-content:center;color:#111827;font-weight:800;font-size:24px;">1</div>
+            <div id="levelBadge" class="level-badge">1</div>
             <div>
-              <div style="font-size:12px;color:#e2e8f0;font-weight:700;display:flex;justify-content:space-between;gap:10px">
-                <span>Level Progress</span><span id="xpText" style="color:#22d3ee">0 XP</span>
+              <div class="small muted" style="font-weight:700;display:flex;justify-content:space-between;gap:10px">
+                <span>Level Progress</span><span id="xpText" class="primary-text">0 XP</span>
               </div>
-              <div style="width:200px;height:10px;border-radius:999px;background:#0f172a;border:1px solid rgba(255,255,255,0.08);overflow:hidden">
-                <div id="xpBar" style="height:100%;width:0%;background:linear-gradient(90deg,#06b6d4,#3b82f6)"></div>
-              </div>
+                <div class="xp-track" style="width:200px;height:10px">
+                <div id="xpBar" class="xp-fill" style="width:0%"></div>
+                </div>
             </div>
-            <div style="border-left:1px solid rgba(255,255,255,0.12);padding-left:12px;display:flex;align-items:center;gap:6px;color:#fb923c">
+            <div class="side-sep accent" style="display:flex;align-items:center;gap:6px">
               ⚡ <span id="streakText" style="font-weight:700">0</span> Day
             </div>
           </div>
@@ -110,7 +105,7 @@
           <div class="glass" style="flex:2">
             <div class="row" style="justify-content:space-between">
               <div class="row" style="align-items:center"><span>🧠</span><strong>Quick Scratchpad</strong></div>
-              <div class="row"><span id="saveStatus" style="display:none;color:#86efac;font-size:12px;font-weight:700">Saved!</span><button class="btn" onclick="saveScratch()">Save Note</button></div>
+              <div class="row"><span id="saveStatus" class="small success-text" style="display:none;font-weight:700">Saved!</span><button class="btn" onclick="saveScratch()">Save Note</button></div>
             </div>
             <input id="scratchTitle" class="input mt" placeholder="Note Title...">
             <textarea id="scratchContent" class="input mt" style="height:120px" placeholder="Write your thoughts here..."></textarea>
@@ -120,7 +115,7 @@
 
           <div class="glass" style="flex:1">
             <strong>Quick Actions</strong>
-            <div class="mt"><button class="btn btn-primary" onclick="location.href='notes.html'">Create New Note (+20 XP)</button></div>
+            <div class="mt"><button class="btn btn-primary" onclick="location.href='../sayaan/notes.html'">Create New Note (+20 XP)</button></div>
           </div>
         </div>
 
@@ -135,7 +130,7 @@
   <script>
     const ACTIVE_SESSION_KEY = 'gearhub_active_session';
     const user = JSON.parse(localStorage.getItem(ACTIVE_SESSION_KEY) || 'null');
-    if (!user) location.href='login.html';
+    if (!user) location.href='../arjun/login.html';
 
     document.getElementById('roleBadge').textContent = `${user.role || 'Student'} Edition`;
     document.getElementById('userCapsule').textContent = `${user.name} | Lvl ${user.level}`;
@@ -150,7 +145,7 @@
     if (user.role === 'TEACHER') document.getElementById('teacherNav').style.display='block';
     if (user.role === 'ADMIN') document.getElementById('adminNav').style.display='block';
 
-    function logout(){ localStorage.removeItem(ACTIVE_SESSION_KEY); location.href='login.html'; }
+    function logout(){ localStorage.removeItem(ACTIVE_SESSION_KEY); location.href='../arjun/login.html'; }
 
     const SCRATCHPAD_KEY = `gearhub_scratchpad_${user.id}`;
     let scratchpad = JSON.parse(localStorage.getItem(SCRATCHPAD_KEY) || '[]');
@@ -163,9 +158,9 @@
 
     function renderScratch() {
       const list = document.getElementById('scratchList');
-      if (scratchpad.length === 0) { list.innerHTML = '<div style="color:#94a3b8;font-size:12px">No notes found.</div>'; return; }
+  if (scratchpad.length === 0) { list.innerHTML = '<div class="muted small">No notes found.</div>'; return; }
       list.innerHTML = scratchpad.map(n => `
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px solid rgba(255,255,255,0.08)">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px solid var(--sep-weak)">
           <div style="cursor:pointer" onclick="loadScratch('${n.id}')">${n.title || '(Untitled)'}</div>
           <div class="row">
             ${!n.completed?`<button class="btn" onclick="completeScratch('${n.id}')">✔️</button>`:''}
@@ -225,14 +220,14 @@
     const feed = document.getElementById('activityFeed');
     const activities = notes.slice(0,3).map(n => ({title:`Created note: ${n.title}`, time:'Recently'}));
     feed.innerHTML = activities.length ? activities.map(a=>`
-      <div class="glass" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <div class="row">
-          <div style="width:40px;height:40px;border-radius:12px;background:rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center">📚</div>
-          <div><strong>${a.title}</strong><div style="font-size:12px;color:#94a3b8">${a.time}</div></div>
+        <div class="glass" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div class="row">
+          <div style="width:40px;height:40px;border-radius:12px;background:var(--primary-weak);display:flex;align-items:center;justify-content:center">📚</div>
+          <div><strong>${a.title}</strong><div class="small muted">${a.time}</div></div>
         </div>
-        <div class="pill" style="color:#86efac;border-color:rgba(34,197,94,0.3)">+10 XP</div>
+        <div class="pill success">+10 XP</div>
       </div>
-    `).join('') : '<div style="color:#94a3b8">No recent activity</div>';
+    `).join('') : '<div class="muted">No recent activity</div>';
 
     function addXP(amount){
       const newXP = (user.xp||0) + amount;

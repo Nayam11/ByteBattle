@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <div class="backbar" style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-  <button class="back" onclick="history.back()" style="padding:8px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;cursor:pointer">← Back</button>
+  <button class="back" onclick="history.back()">← Back</button>
 </div>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="ugly.css">
+  <link rel="stylesheet" href="../ugly.css">
   <meta charset="UTF-8">
   <title>iMeet | GEAR HUB (HTML)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    :root { --bg:#020617; --panel:rgba(15,23,42,0.6); --text:#F8FAFC; }
+  /* uses global theme */
     body { margin:0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); }
     .center { min-height: 100vh; display: grid; place-items: center; }
-    .glass { background: var(--panel); border:1px solid rgba(255,255,255,0.08); backdrop-filter: blur(24px); border-radius: 24px; padding: 24px; width: 800px; }
-    .input { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(2,6,23,0.6); color: #fff; }
-    .btn { padding:10px 14px; border-radius:12px; background: linear-gradient(90deg,#06b6d4,#3b82f6); border: none; color:#fff; cursor:pointer; }
+  .glass { background: var(--card-bg); border:1px solid var(--sep-weak); backdrop-filter: blur(8px); border-radius: 24px; padding: 24px; width: 800px; }
+  .input { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid var(--sep-weak); background: var(--card-bg); color: var(--text); }
+  .btn { padding:10px 14px; border-radius:12px; background: linear-gradient(90deg,var(--primary),var(--sea-top)); border: none; color:#fff; cursor:pointer; }
     .row { display:flex; gap:10px; align-items:center; }
   </style>
 </head>
@@ -34,7 +34,7 @@
   </div>
 
   <script>
-    const ACTIVE_SESSION_KEY='gearhub_active_session'; const user=JSON.parse(localStorage.getItem(ACTIVE_SESSION_KEY)||'null'); if(!user) location.href='login.html';
+    const ACTIVE_SESSION_KEY='gearhub_active_session'; const user=JSON.parse(localStorage.getItem(ACTIVE_SESSION_KEY)||'null'); if(!user) location.href='../arjun/login.html';
     let api=null;
 
     function join(){
